@@ -253,6 +253,7 @@ input{font:inherit;color:inherit}
       <button class="dc" data-demo="error">⚡ Next AI reply fails <small>Error state</small></button>
       <button class="dc" data-demo="drop">👋 Meera drops out <small>Edge case</small></button>
       <button class="dc" data-demo="friend">👀 Open the friend's link <small>Guest view</small></button>
+      <button class="dc" data-demo="trainfail">🚫 Train sells out at payment <small>Mid-booking</small></button>
       <button class="dc" data-demo="jump-plan">→ Jump to the plan</button>
     </div>
     <p class="legal">Concept prototype for a design exercise. All prices, trains, stays and AI replies are simulated. Not affiliated with or endorsed by Cleartrip. Photos: Wikimedia Commons contributors (CC BY / CC BY-SA / public domain); see <a href="img/CREDITS.md" style="color:inherit">credits</a>.</p>
@@ -319,7 +320,7 @@ let toastT;function toast(msg,undo){app.querySelector('.toast')?.remove();const 
 function push(title,body,onTap){const p=document.createElement('div');p.className='push';p.innerHTML=`<i>${ic('check',18,'#fff')}</i><div><b>${title}</b><span>${body}</span></div>`;app.appendChild(p);p.onclick=()=>{p.remove();onTap&&onTap()};setTimeout(()=>p.remove(),4500)}
 
 // ---------- router ----------
-const order=['home','options','friend','plan','commit','whosin','review','booked'];
+const order=['home','options','friend','plan','commit','whosin','review','partial','booked'];
 function go(v,back){const prev=S.view;S.view=v;render(back??(order.indexOf(v)<order.indexOf(prev)))}
 function render(back){app.innerHTML=VIEWS[S.view]();const vw=app.querySelector('.view');if(vw&&back)vw.classList.add('back');bind[S.view]&&bind[S.view]()}
 
@@ -392,7 +393,7 @@ plan:()=>{const c=costNow(),f=fits(c),st=STAYS[S.stay],fun=funPP-(S.skip.chapora
   <div class="sec"><span class="h16">Things to do · optional</span></div>
   <div class="days">${dayRow('flea','Sat','Anjuna beach + flea market','~3 hrs · 5 min walk')}${dayRow('chapora','Sat','Sunset at Chapora Fort','1.5 hrs · ~₹150 scooter')}${dayRow('sun','Sun',S.day2chill?'Slow brunch + hammock at the hostel':'Brunch + check-out by 11 AM',S.day2chill?'Late check-out till 1 PM (free) · train 18:15':'Train at 18:15 · bags at the hostel')}</div>
   <div class="sec"><span class="h16">Fare summary</span></div>
-  <div class="card fs" style="box-shadow:none"><div class="r"><span>Trains (both ways)</span><span style="color:var(--ink)">${inr(trainsPP)}</span></div><div class="r"><span>Stay (2 nights)</span><span style="color:var(--ink)">${inr(stayPP+st.d+(S.roomFix==='keep'?400:0))}</span></div><div class="r"><span>Food + fun · estimate</span><span>~${inr(fun)}</span></div><div style="height:1px;background:var(--line);margin:6px 0"></div><div class="r" style="color:var(--ink)"><b class="m14" style="font-weight:600">Per person</b><b class="h16">${inr(c)}</b></div></div>
+  <div class="card fs" style="box-shadow:none"><div class="r"><span>Trains (both ways)</span><span style="color:var(--ink)">${inr(trainsPP)}</span></div><div class="r"><span>Stay (2 nights)</span><span style="color:var(--ink)">${inr(stayPP+st.d+(S.roomFix==='keep'?400:0))}</span></div><div class="r"><span>Food + fun · ◌ AI estimate</span><span>~${inr(fun)}</span></div><div class="c12" style="margin:-2px 0 2px">Range ₹5,000–6,400 · ₹1,900/day from 812 guest reviews + ₹300 scooter · not booked</div><div style="height:1px;background:var(--line);margin:6px 0"></div><div class="r" style="color:var(--ink)"><b class="m14" style="font-weight:600">Per person</b><b class="h16">${inr(c)}</b></div><div class="c12" style="margin-top:4px;color:var(--ok2)">● Live part ${inr(c-fun)} · fits ${fits(c).n} of ${fits(c).of} at this estimate, ${fits(c+680).n} of ${fits(c).of} if spending runs high</div></div>
   <div style="height:90px"></div>
  </div></div>
  <button class="fab" id="fab" aria-label="Ask AI about this trip">${ic('searchspark',24,'#fff')}</button>
@@ -437,10 +438,25 @@ review:()=>{const n=people().length,pp=trainsPP+stayPP+STAYS[S.stay].d+(S.roomFi
  <div class="bar pbar"><div style="flex:1"><div class="h20">${inr(pp*n)}</div><div class="c12">for ${n} · payment on next step</div></div><button class="btn p" id="bookBtn">Book now</button></div>
 </div>`},
 
+partial:()=>{const n=people().length;return `<div class="view cool">${statusBar()}
+ <div class="hdr"><div class="t"><b>Almost booked</b><span>1 of 3 bookings needs a decision</span></div></div>
+ <div class="scroll"><div class="pad" style="gap:10px">
+  <div class="banner err">${ic('x',16,'#D32F2F')}<div><b>Konkan Kanya 3A sold out while you paid</b>Your train money (${inr(1640*n)}) was not charged. Rooms are safe.</div></div>
+  <div class="grp"><div class="r"><span class="tile" style="background:var(--okbg)">${ic('bed',18,'#0D7A3D')}</span><div style="flex:1"><div class="m14" style="font-weight:600">${STAYS[S.stay].name} · booked</div><div class="c12">CT-GOA-88213 · free cancellation till 21 Dec</div></div>${ic('check',16,'#0D7A3D')}</div>
+   <div class="r"><span class="tile" style="background:var(--errbg)">${ic('train',18,'#D32F2F')}</span><div style="flex:1"><div class="m14" style="font-weight:600">Train out · Fri 25 · not booked</div><div class="c12">3A sold out · ${inr(1640*n)} not charged</div></div></div>
+   <div class="r"><span class="tile" style="background:var(--info)">${ic('train',18,'#3366CC')}</span><div style="flex:1"><div class="m14" style="font-weight:600">Train back · Sun 27 · on hold</div><div class="c12">Booked together with the train out</div></div></div></div>
+  <div class="h16" style="display:flex;gap:6px;align-items:center">${ic('spark',16,'#FF4F17')}Ways to make it work</div>
+  ${[['2a','2A on the same train','+₹600 each · same times · still fits '+fits(costNow()+600).n+' of '+n,'Suggested'],['js','Jan Shatabdi · Fri 05:10','−₹400 each · arrives 13:45, so Day 1 is shorter',''],['cx','Cancel the stay','Free till 21 Dec · full refund · nothing else charged','']].map(([k,t,d,tag],i)=>`<button class="alt ${i===0?'sel':''}" data-alt2="${k}" style="padding:12px;text-align:left;display:flex;flex-direction:column;gap:2px"><span class="m14" style="font-weight:600;display:flex;justify-content:space-between;width:100%">${t}${tag?`<span class="c12" style="color:var(--orange-text)">✦ ${tag}</span>`:''}</span><span class="c12">${d}</span></button>`).join('')}
+  <div class="c12">Fares re-checked just now · ● Live (Cleartrip)</div>
+  <div style="height:80px"></div>
+ </div></div>
+ <div class="bar"><button class="btn p" id="fixBtn">Book 2A for ${n}</button></div>
+</div>`},
+
 booked:()=>`<div class="view">${statusBar()}<div class="scroll"><div class="pad" style="align-items:center;text-align:center;padding:28px 20px;gap:16px">
  <div class="okc">${ic('check',36,'#fff')}</div><div class="h24">Christmas in Goa is booked 🎉</div><div class="b14" style="color:var(--ink2)">All ${people().length} of you now have the itinerary and your tickets.</div>
  <div class="avs">${people().map(f=>`<div class="av" style="background:${f.c};width:32px;height:32px;font-size:12px">${f.i[0]}</div>`).join('')}</div>
- <div class="days" style="width:100%;text-align:left">${[['train','Train out · Fri 25 Dec, 21:10','PNR 4125 530 981 · Confirmed'],['bed',STAYS[S.stay].name+' · 2 nights','Booking ID CT-GOA-88213 · Confirmed'],['train','Train back · Sun 27 Dec, 18:15','PNR 4125 531 207 · RAC 4']].map(([i,t,s])=>`<div class="day">${ic(i,18,'#757575')}<div style="flex:1"><div class="m14">${t}</div><div class="c12">${s}</div></div></div>`).join('')}</div>
+ <div class="days" style="width:100%;text-align:left">${[['train',S.outLabel||'Train out · Fri 25 Dec, 21:10',S.outSub||'PNR 4125 530 981 · Confirmed'],['bed',STAYS[S.stay].name+' · 2 nights','Booking ID CT-GOA-88213 · Confirmed'],['train','Train back · Sun 27 Dec, 18:15','PNR 4125 531 207 · RAC 4']].map(([i,t,s])=>`<div class="day">${ic(i,18,'#757575')}<div style="flex:1"><div class="m14">${t}</div><div class="c12">${s}</div></div></div>`).join('')}</div>
  <div class="ripple" style="width:100%;flex-direction:row;text-align:left;color:var(--violet)">${ic('spark',16,'#5E1EB8')}<span>I'll watch your RAC ticket and tell the group the moment it confirms.</span></div>
 </div></div><div class="bar"><button class="btn p" data-go="plan">View trip</button><button class="btn o" id="waShare">Share on WhatsApp</button></div><div class="foot" style="padding-bottom:10px">Concept prototype · simulated data · not affiliated with Cleartrip</div></div>`
 };
@@ -523,7 +539,9 @@ const bind={
   app.querySelector('#sendGroup').onclick=async()=>{const b=app.querySelector('#sendGroup');b.innerHTML='<span class="spin"></span>';await wait(600);S.sentToGroup=true;go('whosin');simulateReplies()}},
  whosin(){common();if(S.dropped&&!S.roomFix)setTimeout(dropSheet,250);
   const n=app.querySelector('#nudge');if(n)n.onclick=async()=>{S.nudged=true;render();toast('Nudged everyone still reviewing on WhatsApp.');await wait(1800);S.status=S.status.map((s,i)=>(s==='rev'||s==='re')&&!(S.dropped&&i===5)?'in':s);if(S.view==='whosin'){render();maybeAutobook()}}},
- review(){common();app.querySelector('#bookBtn').onclick=async()=>{const b=app.querySelector('#bookBtn');b.innerHTML='<span class="spin"></span> Booking…';await wait(1300);S.booked=true;go('booked')}},
+ review(){common();app.querySelector('#bookBtn').onclick=async()=>{const b=app.querySelector('#bookBtn');b.innerHTML='<span class="spin"></span> Booking…';await wait(1300);if(S.trainFail){go('partial');return}S.booked=true;go('booked')}},
+ partial(){const sel={v:'2a'};app.querySelectorAll('[data-alt2]').forEach(b=>b.onclick=()=>{sel.v=b.dataset.alt2;app.querySelectorAll('[data-alt2]').forEach(x=>x.classList.toggle('sel',x===b));app.querySelector('#fixBtn').textContent={'2a':'Book 2A for '+people().length,'js':'Book Jan Shatabdi for '+people().length,'cx':'Cancel stay · full refund'}[sel.v]});
+  app.querySelector('#fixBtn').onclick=async()=>{const b=app.querySelector('#fixBtn');b.innerHTML='<span class="spin"></span>';await wait(1100);S.trainFail=false;if(sel.v==='cx'){S=fresh();render();toast('Stay cancelled · full refund in 3–5 days. Nothing else was charged.');return}S.outLabel=sel.v==='2a'?'Train out · Fri 25 Dec, 21:10 · 2A':'Train out · Jan Shatabdi · Fri 25, 05:10';S.outSub=sel.v==='2a'?'PNR 4125 530 990 · Confirmed · +₹600 each':'PNR 4125 531 044 · Confirmed · −₹400 each';S.booked=true;go('booked');toast(sel.v==='2a'?'Train out: 2A · +₹600 each · everyone booked':'Train out: Jan Shatabdi 05:10 · everyone booked')}},
  booked(){common();app.querySelector('#waShare').onclick=()=>toast('WhatsApp share sheet would open here.')}
 };
 function whyOption(k){const W={train:["Overnight train saves a night's stay; you wake up in Goa","Fits all 6 budgets at ₹11,900","Tradeoff: 10 hours each way"],gokarna:["Cheapest option at ₹10,400","Quieter beaches, good for groups","Tradeoff: fewer cafes and nightlife"],flight:["Fastest: 1h 10m","Christmas fares push it to ₹17,200, over 5 of 6 budgets","I checked 1–3 Jan: ₹14,900, but 3 of you can only do 25–27"]};const s=sheet(`<div class="sh-t"><span class="h20">Why this trip</span><button class="ib" data-close>${ic('x',20)}</button></div>${W[k].map(r=>`<div class="why">${ic('spark',13,'#A06800')}<span>${r}</span></div>`).join('')}<button class="btn d" data-close>Got it</button>`);s.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeSheet)}
@@ -546,6 +564,7 @@ function demo(k){if(k==='restart'){S=fresh();render();syncDemo();return}
  if(k==='error'){S.failNext=!S.failNext;syncDemo();if(S.failNext){S=Object.assign(fresh(),{failNext:true});S.view='chat';render();startChat()}return}
  if(k==='drop'){S.dropped=true;S.roomFix=null;if(S.view!=='whosin'){S.sentToGroup=true;if(S.status.filter(s=>s==='in').length<3)S.status=['in','in','rev','in','in','rev']}go('whosin');return}
  if(k==='friend'){go('friend');return}
+ if(k==='trainfail'){S.trainFail=true;if(S.view!=='review')go('review');toast('Next booking: the outbound train will sell out during payment');return}
  if(k==='jump-plan'){go('plan')}}
 const mp=document.getElementById('mPanel');mp.innerHTML=document.querySelector('.side .panel').innerHTML+'<button class="dc" id="mClose">Close</button>';
 document.getElementById('mobileDemo').onclick=()=>{mp.style.display=mp.style.display==='none'?'flex':'none'};mp.querySelector('#mClose').onclick=()=>mp.style.display='none';
