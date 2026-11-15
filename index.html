@@ -137,7 +137,12 @@ input{font:inherit;color:inherit}
 .aipick{align-self:flex-start;display:inline-flex;gap:4px;align-items:center;background:var(--ai);color:#fff;font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px}
 /* friend */
 .url{margin:6px 16px;padding:6px 12px;border-radius:999px;background:var(--muted);font-size:12px;color:var(--ink2);font-weight:500;display:flex;gap:6px;justify-content:center;align-items:center}
-.fname{height:44px;border:1px solid var(--line2);border-radius:8px;padding:0 12px;font:inherit;font-size:15px}.priv{background:var(--peach);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.fname{height:44px;border:1px solid var(--line2);border-radius:8px;padding:0 12px;font:inherit;font-size:15px}.aisec{margin-top:4px;background:linear-gradient(180deg,#FFF1ED,#fff 85%);border:1px solid #FFE0D5;border-radius:16px;padding:14px 0 14px 14px}.aih{display:flex;align-items:center;gap:8px}
+.aigt{background:linear-gradient(90deg,#FF4F17,#EE1C85);-webkit-background-clip:text;background-clip:text;color:transparent}
+.aicards{display:flex;gap:10px;overflow-x:auto;margin-top:12px;padding-right:14px;scrollbar-width:none}.aicards::-webkit-scrollbar{display:none}
+.aic{flex:0 0 150px;display:flex;flex-direction:column;gap:4px;text-align:left;background:#fff;border:1px solid #EDEDED;border-radius:12px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.aic b{font-size:14px;line-height:18px;font-weight:600;color:var(--ink)}.aic span{font-size:12px;color:var(--ink2);line-height:16px}.aie{font-size:20px!important}.aic .aig{margin-top:auto;padding-top:6px;color:#E8461A;font-weight:600}
+.priv{background:var(--peach);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
 .money{display:flex;align-items:center;border:1.5px solid var(--ink);border-radius:8px;background:#fff;padding:0 14px;height:48px;font-size:20px;font-weight:600}
 .money input{border:0;outline:0;font-size:20px;font-weight:600;width:100%;background:none}
 .vote{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--line2);border-radius:12px;background:#fff;text-align:left;transition:border-color .15s}
@@ -325,7 +330,9 @@ home:()=>`<div class="view">${statusBar()}
  <div class="scroll"><div class="pad" style="padding-top:6px">
   <div class="lob"><div class="r" style="grid-template-columns:1fr 1fr">${[['Hotels','30-80% off','hotel'],['Flights','Up to 25% off','plane']].map(([n,s,i])=>`<button class="lc">${ic(i,26,'#FF4F17')}<b>${n}</b><span class="c12">${s}</span></button>`).join('')}</div>
    <div class="r" style="grid-template-columns:1fr 1fr 1fr">${[['Trains','Flat 10% off','train'],['Buses','Flat 15% off','bus'],['Holidays','Up to 25%','beach']].map(([n,s,i])=>`<button class="lc s">${ic(i,22,'#FF4F17')}<b>${n}</b><span class="c12">${s}</span></button>`).join('')}</div></div>
-  <button class="entry" data-go="chat"><span class="etile">${ic('users',20,'#FF4F17')}</span><span style="flex:1"><span class="m14" style="font-weight:600">Planning with friends?</span><span class="new">NEW</span><span class="c12" style="display:block">One trip that fits everyone's budget</span></span>${ic('chev',18,'#757575')}</button>
+  <div class="aisec"><div class="aih"><span class="h16" style="display:flex;gap:6px;align-items:center">${ic('spark',16,'#FF4F17')}<span class="aigt">Plan a group trip with AI</span></span><span class="new">NEW</span></div>
+   <div class="c12" style="margin-top:2px">Finds one trip that fits everyone's budget · prices live from Cleartrip</div>
+   <div class="aicards"><button class="aic" data-go="chat" data-p="6 of us, ~₹15K each, Christmas long weekend, somewhere beachy 🏖️" onpointerdown="S.prefill=this.dataset.p"><span class="aie">🎄</span><b>Christmas long weekend</b><span>Goa under ₹15K each</span><span class="aig">Ask AI ›</span></button><button class="aic" data-go="chat" data-p="6 of us, budgets from ₹12K to ₹18K, Christmas long weekend, beach" onpointerdown="S.prefill=this.dataset.p"><span class="aie">👥</span><b>6 friends, different budgets?</b><span>I'll find one trip that fits all</span><span class="aig">Ask AI ›</span></button><button class="aic" data-go="chat" data-p="4 of us, ₹10K each, a weekend trip from Mumbai by train" onpointerdown="S.prefill=this.dataset.p"><span class="aie">🚆</span><b>Weekend from Mumbai</b><span>By train, back by Monday</span><span class="aig">Ask AI ›</span></button></div></div>
   <div class="sec"><span class="h16">Top offers</span><span class="m12" style="color:var(--link);font-weight:600">View all</span></div>
   <div class="offers"><button class="offer"><span class="ph ph-plane" style="display:block"></span><div><b class="m14" style="font-weight:600">Up to 25% off</b><div class="c12" style="padding:0">on domestic flights</div></div></button><button class="offer"><span class="ph ph-anjuna" style="display:block"></span><div><b class="m14" style="font-weight:600">Book hotels at ₹0</b><div class="c12" style="padding:0">Pay at check-in</div></div></button></div>
  </div></div>
@@ -478,6 +485,7 @@ function userSay(text){const m=app.querySelector('#msgs');const u=document.creat
 function addNode(html){const m=app.querySelector('#msgs');const d=document.createElement('div');d.innerHTML=html;const n=d.firstElementChild;m.appendChild(n);m.scrollTop=m.scrollHeight;return n}
 async function startChat(){S.chatStep=0;S.msgs=[];const n=await aiSay(`Hi Arjun 👋 Tell me who's going, roughly when, and your budget. I'll find a trip that works for everyone, and keep each person's budget private.`,500);
  const ex=addNode(`<div class="indent" style="display:flex;flex-direction:column;gap:8px"><div class="cap">Try one of these</div><div class="chips">${['6 of us, ~₹15K each, Christmas long weekend, somewhere beachy 🏖️','Surprise us 🎲'].map(s=>`<button class="chip soft" style="height:auto;min-height:32px;white-space:normal;text-align:left;padding:6px 12px">${s}</button>`).join('')}</div></div>`);
+ if(S.prefill){const t=S.prefill;S.prefill=null;ex.remove();await wait(500);handleUser(t);return}
  ex.querySelectorAll('button').forEach(b=>b.onclick=()=>{ex.remove();handleUser(b.textContent.includes('Surprise')?'6 of us, ~₹15K each, Christmas long weekend, somewhere beachy 🏖️':b.textContent)})}
 async function handleUser(text){if(S.chatStep===0){userSay(text);S.chatStep=1;
   await aiSay(`Love it. Christmas falls on a long weekend: <b>Fri 25 – Sun 27 Dec</b> 🎄 One quick thing: what matters most to the group?`);
