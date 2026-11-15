@@ -137,7 +137,7 @@ input{font:inherit;color:inherit}
 .aipick{align-self:flex-start;display:inline-flex;gap:4px;align-items:center;background:var(--ai);color:#fff;font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px}
 /* friend */
 .url{margin:6px 16px;padding:6px 12px;border-radius:999px;background:var(--muted);font-size:12px;color:var(--ink2);font-weight:500;display:flex;gap:6px;justify-content:center;align-items:center}
-.priv{background:var(--peach);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.fname{height:44px;border:1px solid var(--line2);border-radius:8px;padding:0 12px;font:inherit;font-size:15px}.priv{background:var(--peach);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
 .money{display:flex;align-items:center;border:1.5px solid var(--ink);border-radius:8px;background:#fff;padding:0 14px;height:48px;font-size:20px;font-weight:600}
 .money input{border:0;outline:0;font-size:20px;font-weight:600;width:100%;background:none}
 .vote{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--line2);border-radius:12px;background:#fff;text-align:left;transition:border-color .15s}
@@ -297,7 +297,7 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
 // ---------- state ----------
 const STAYS={anjuna:{name:'Anjuna Bay Hostel',meta:'3 private rooms · 2 nights · 400 m to beach',d:0,rating:'4.3 · 812'},vagator:{name:'Vagator Cliff Rooms',meta:'3 private rooms · sea view · 2 nights',d:100,rating:'4.5 · 640'},huts:{name:'Anjuna Beach Huts',meta:'Beach huts · on the sand · 2 nights',d:-200,rating:'3.9 · 410'},calangute:{name:'Calangute Resort',meta:'Pool · 25 min from plans · 2 nights',d:900,rating:'4.4 · 1.2k'}};
 const FRIENDS=[{n:'Arjun (you)',i:'AS',c:'#3366CC',b:15000},{n:'Sarika',i:'SK',c:'#EE1C85',b:15000},{n:'Rahul',i:'RM',c:'#11A670',b:12000},{n:'Neha',i:'NJ',c:'#5E1EB8',b:18000},{n:'Kabir',i:'KB',c:'#FF4F17',b:15000},{n:'Meera',i:'MP',c:'#B25E00',b:15000}];
-const fresh=()=>({view:'home',msgs:[],chatStep:0,failNext:false,stay:'anjuna',prevStay:null,skip:{},day2chill:false,status:['in','rev','rev','rev','rev','rev'],dropped:false,roomFix:null,autobook:false,fBudget:12000,fVote:'train',fDates:'yes',booked:false,cost:11900,fromFriend:false,sentToGroup:false,nudged:false});
+const fresh=()=>({view:'home',msgs:[],chatStep:0,failNext:false,stay:'anjuna',prevStay:null,skip:{},day2chill:false,status:['in','rev','rev','rev','rev','rev'],dropped:false,roomFix:null,autobook:false,fBudget:12000,fVote:'train',fDates:'yes',booked:false,cost:11900,fromFriend:false,sentToGroup:false,nudged:false,budgetMode:'private',fName:'Rahul',fKeepPrivate:false});
 let S=fresh();
 const app=document.getElementById('app');
 const trainsPP=3280,stayPP=2900,funPP=5720;
@@ -357,7 +357,9 @@ friend:()=>`<div class="view">${statusBar()}<div class="url">${ic('lock',12,'#75
  <div class="scroll"><div class="pad">
   <div class="row"><div class="mem"><div class="a" style="width:44px;height:44px;background:#3366CC;font-size:16px">A</div></div><div style="flex:1"><div class="h16">Arjun is planning Christmas 🎄</div><div class="c12">25–27 Dec · 6 friends · from Mumbai</div></div></div>
   <span class="pill ok" style="align-self:flex-start">${ic('check',12,'#0D7A3D')} No login needed to vote</span>
-  <div class="priv"><div style="display:flex;gap:6px;align-items:center;font-size:12px;font-weight:600;color:var(--orange-text)">${ic('lock',14,'#FF4F17')}Only you see this</div>
+  <div style="display:flex;flex-direction:column;gap:6px"><label class="m12" style="color:var(--ink2)" for="fn">Your name</label><input id="fn" class="fname" value="${S.fName}" autocomplete="given-name"><div class="c12">So the group knows who joined. Signed in to Cleartrip? We fill this in.</div></div>
+  <div class="priv">${S.budgetMode==='private'||S.fKeepPrivate?`<div style="display:flex;gap:6px;align-items:center;font-size:12px;font-weight:600;color:var(--orange-text)">${ic('lock',14,'#FF4F17')}Only you see this</div>`:`<div style="display:flex;gap:6px;align-items:center;font-size:12px;font-weight:600;color:var(--orange-text)">👥 Arjun made budgets open · the group sees this</div>`}
+   ${S.budgetMode==='open'?`<label class="c12" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="kp" ${S.fKeepPrivate?'checked':''}> Keep my budget private</label>`:''}
    <label class="m12" style="color:var(--ink2)" for="fb">Your max budget, all-in</label>
    <div class="money">₹<input id="fb" inputmode="numeric" value="${S.fBudget.toLocaleString('en-IN')}"></div>
    <div class="m12" style="color:var(--ink2)">Can you make Fri 25 – Sun 27 Dec?</div>
@@ -365,7 +367,7 @@ friend:()=>`<div class="view">${statusBar()}<div class="url">${ic('lock',12,'#75
   <div class="h16">Vote for a trip</div>
   <div style="display:flex;flex-direction:column;gap:10px" id="votes">${[['train','Goa by overnight train',11900],['gokarna','Gokarna by train',10400],['flight','Goa by flight',17200]].map(([k,n,p])=>`<button class="vote ${S.fVote===k?'sel':''}" data-v="${k}"><span class="radio"></span><div style="flex:1"><div class="m14">${n}</div><div class="c12">${inr(p)} per person</div></div><span class="fitb" data-p="${p}"></span></button>`).join('')}</div>
  </div></div>
- <div class="bar"><div class="note">Arjun sees totals only (like “fits 5 of 6”), never your budget.</div><button class="btn p" id="sendVote">Send my vote</button></div>
+ <div class="bar"><div class="note">${S.budgetMode==='open'&&!S.fKeepPrivate?'The group will see your budget next to your name.':'Arjun sees totals only (like “fits 5 of 6”), never your budget.'}</div><button class="btn p" id="sendVote">Send my vote</button></div>
 </div>`,
 
 plan:()=>{const c=costNow(),f=fits(c),st=STAYS[S.stay],fun=funPP-(S.skip.chapora?150:0);return `<div class="view cool">${statusBar()}
@@ -408,7 +410,7 @@ whosin:()=>{const inN=S.status.filter((s,i)=>s==='in'&&!(S.dropped&&i===5)).leng
   <div class="card" style="display:flex;flex-direction:column;gap:10px;box-shadow:none"><div class="row" style="justify-content:space-between"><span class="h20">${inN} of ${tot} are in</span><div class="avs">${FRIENDS.filter((f,i)=>S.status[i]==='in'&&!(S.dropped&&i===5)).map(f=>`<div class="av" style="background:${f.c}">${f.i[0]}</div>`).join('')}</div></div>
    <div class="prog">${people().map(f=>{const i=FRIENDS.indexOf(f);return `<i style="background:${S.status[i]==='in'?'var(--ok)':'var(--line2)'}"></i>`}).join('')}</div>
    <div class="c12" style="display:flex;gap:4px;align-items:center">${ic('clock',13,'#757575')}Rooms held · hold ends in 2d 14h</div></div>
-  <div class="card" style="display:flex;flex-direction:column;gap:6px;box-shadow:none">${FRIENDS.map((f,i)=>{const s=S.dropped&&i===5?'drop':S.status[i];return `<div class="mem"><div class="a" style="background:${f.c}">${f.i}</div><span class="n">${f.n}</span><span class="st ${s}">${{in:'In ✓',rev:'Reviewing',drop:'Dropped out',re:'Re-confirm'}[s]}</span></div>`}).join('')}</div>
+  <div class="card" style="display:flex;flex-direction:column;gap:6px;box-shadow:none">${FRIENDS.map((f,i)=>{const s=S.dropped&&i===5?'drop':S.status[i];return `<div class="mem"><div class="a" style="background:${f.c}">${f.i}</div><span class="n">${f.n}${S.budgetMode==='open'?`<span class="c12" style="display:block">${i===2&&S.fKeepPrivate?'🔒 budget private':'up to '+inr(f.b)}</span>`:''}</span><span class="st ${s}">${{in:'In ✓',rev:'Reviewing',drop:'Dropped out',re:'Re-confirm'}[s]}</span></div>`}).join('')}</div>
  </div></div>
  <div class="bar"><div style="display:flex;gap:10px">${ready?'':`<button class="btn o" id="nudge" ${S.nudged?'disabled':''}>${S.nudged?'Nudged':'Nudge '+rev}</button>`}<button class="btn p" data-go="review">Review & book</button></div></div>
 </div>`},
@@ -503,7 +505,8 @@ const bind={
  friend(){common();const fb=app.querySelector('#fb');const upd=()=>{const v=parseInt(fb.value.replace(/\D/g,''))||0;S.fBudget=v;app.querySelectorAll('.fitb').forEach(e=>{const p=+e.dataset.p;e.className='pill '+(v>=p?'ok':'warn')+' fitb';e.dataset.p=p;e.innerHTML=v>=p?ic('check',12,'#0D7A3D')+' Fits you':inr(p-v)+' over'})};fb.oninput=()=>{const d=fb.value.replace(/\D/g,'');fb.value=d?(+d).toLocaleString('en-IN'):'';upd()};upd();
   app.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{S.fDates=b.dataset.d;app.querySelectorAll('[data-d]').forEach(x=>x.classList.toggle('sel',x===b))});
   app.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{S.fVote=b.dataset.v;app.querySelectorAll('[data-v]').forEach(x=>x.classList.toggle('sel',x===b))});
-  app.querySelector('#sendVote').onclick=async()=>{const b=app.querySelector('#sendVote');b.innerHTML='<span class="spin"></span>';await wait(700);b.innerHTML=ic('check',18,'#fff')+' Vote sent';await wait(700);S.status[2]='in';toast('Rahul\'s vote is in. Arjun sees “4 of 6 voted · Goa by train leads”, not his budget.');S.fromFriend=true;go(S.sentToGroup?'whosin':'plan')}},
+  const fn=app.querySelector('#fn');if(fn)fn.oninput=()=>{S.fName=fn.value.trim()||'Rahul'};const kp=app.querySelector('#kp');if(kp)kp.onchange=()=>{S.fKeepPrivate=kp.checked;const y=app.querySelector('.scroll').scrollTop;render();app.querySelector('.scroll').scrollTop=y};
+  app.querySelector('#sendVote').onclick=async()=>{const b=app.querySelector('#sendVote');b.innerHTML='<span class="spin"></span>';await wait(700);b.innerHTML=ic('check',18,'#fff')+' Vote sent';await wait(700);S.status[2]='in';FRIENDS[2].n=S.fName;S.fromFriend=true;go(S.sentToGroup?'whosin':'plan');toast(S.budgetMode==='open'&&!S.fKeepPrivate?`${S.fName} joined · budget shared with the group`:`${S.fName} joined. Arjun sees “4 of 6 voted · Goa by train leads”, not the budget.`);}},
  plan(){common();const ago=app.querySelector('#ago');let sec=0;const tm=setInterval(()=>{if(!document.body.contains(ago))return clearInterval(tm);sec+=1;ago.textContent=sec<60?sec+'s ago':Math.floor(sec/60)+' min ago'},1000);
   app.querySelector('#stayCard').onclick=whySheet;app.querySelector('#fab').onclick=askSheet;
   const fab=app.querySelector('#fab'),bar=app.querySelector('.view .bar');fab.style.bottom=(bar.offsetHeight+16)+'px';
@@ -517,14 +520,17 @@ const bind={
 };
 function whyOption(k){const W={train:["Overnight train saves a night's stay; you wake up in Goa","Fits all 6 budgets at ₹11,900","Tradeoff: 10 hours each way"],gokarna:["Cheapest option at ₹10,400","Quieter beaches, good for groups","Tradeoff: fewer cafes and nightlife"],flight:["Fastest: 1h 10m","Christmas fares push it to ₹17,200, over 5 of 6 budgets","I checked 1–3 Jan: ₹14,900, but 3 of you can only do 25–27"]};const s=sheet(`<div class="sh-t"><span class="h20">Why this trip</span><button class="ib" data-close>${ic('x',20)}</button></div>${W[k].map(r=>`<div class="why">${ic('spark',13,'#A06800')}<span>${r}</span></div>`).join('')}<button class="btn d" data-close>Got it</button>`);s.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeSheet)}
 function sharePreview(){const s=sheet(`<div class="sh-t"><span class="h20">Share with the group</span><button class="ib" data-close>${ic('x',20)}</button></div>
- <div class="c12">Friends get one message. No login needed to reply.</div>
- <div style="background:#E7FFDB;border-radius:12px 12px 12px 4px;padding:12px;font-size:13px;line-height:1.5">🎄 <b>Christmas trip vote!</b><br>3 options, all under ₹17.2K. Pick one + add your max budget (only you see it): <span style="color:var(--link)">cleartrip.com/t/xmas-goa</span></div>
+ <div class="c12">Friends get one message. They add their name, budget and vote. No login needed.</div>
+ <div class="m12" style="color:var(--ink2);margin-top:4px">Budgets in this group</div>
+ <div class="chips" id="bmode">${[['private','🔒 Private'],['open','👥 Open to group']].map(([k,l])=>`<button class="chip ${S.budgetMode===k?'sel':''}" data-m="${k}">${l}</button>`).join('')}</div>
+ <div class="c12" id="bmodeNote">${S.budgetMode==='private'?'Recommended. You see totals like “fits 5 of 6”, never who is short.':'Everyone sees each other\'s budget, so you can talk it through openly. Anyone can still keep theirs private.'}</div>
+ <div style="background:#E7FFDB;border-radius:12px 12px 12px 4px;padding:12px;font-size:13px;line-height:1.5">🎄 <b>Christmas trip vote!</b><br>3 options, all under ₹17.2K. Pick one + add your max budget (${S.budgetMode==='private'?'only you see it':'shared with the group'}): <span style="color:var(--link)">cleartrip.com/t/xmas-goa</span></div>
  <button class="btn p" id="doShare">Send on WhatsApp</button><button class="btn g" id="seeFriend">See what Rahul sees</button>`);
- s.querySelector('[data-close]').onclick=closeSheet;s.querySelector('#seeFriend').onclick=()=>{closeSheet();go('friend')};
- s.querySelector('#doShare').onclick=async()=>{closeSheet();toast('Sent. Votes will appear as friends reply.');await wait(2200);push('3 of 6 voted · Goa by train leads','Fits 6 of 6 · tap to open the plan',()=>go('plan'))}}
+ s.querySelectorAll('#bmode button').forEach(b=>b.onclick=()=>{S.budgetMode=b.dataset.m;closeSheet();sharePreview()});s.querySelector('[data-close]').onclick=closeSheet;s.querySelector('#seeFriend').onclick=()=>{closeSheet();go('friend')};
+ s.querySelector('#doShare').onclick=async()=>{closeSheet();toast('Sent. Votes will appear as friends reply.');S.sentToGroup=true;for(const [i,n] of [[1,'Sarika'],[3,'Neha']]){await wait(1300);toast(`${n} joined the trip · ${i===1?2:3} of 6 replied`)}await wait(1600);push('3 of 6 voted · Goa by train leads','Fits 6 of 6 · tap to open the plan',()=>go('plan'))}}
 function allIn(){return S.status.every((s,i)=>s==='in'||(S.dropped&&i===5))}
 async function maybeAutobook(){if(!allIn())return false;if(S.autobook){if(costNow()<=12000){push('Auto-booked ✓','Everyone\'s in and it stayed under ₹12,000/person (your rule)',()=>{});await wait(1400);S.booked=true;go('booked');return true}push('Everyone\'s in','Cost is above your ₹12,000 auto-book rule, so please review before booking',()=>go('review'));return true}push('Everyone\'s in 🎉','Ready to book Christmas in Goa',()=>go('review'));return true}
-async function simulateReplies(){for(const i of [1,3,4]){await wait(1100);if(S.view!=='whosin')return;if(S.status[i]==='rev'){S.status[i]='in';render()}}maybeAutobook()}
+async function simulateReplies(){for(const i of [1,3,4]){await wait(1100);if(S.view!=='whosin')return;if(S.status[i]==='rev'){S.status[i]='in';render();toast(`${FRIENDS[i].n} is in ✓`)}}maybeAutobook()}
 
 // ---------- demo controls ----------
 function syncDemo(){document.querySelectorAll('[data-demo="error"]').forEach(b=>b.innerHTML=S.failNext?'⚡ Next AI reply will fail ✓ <small>armed</small>':'⚡ Next AI reply fails <small>Error state</small>')}
