@@ -85,7 +85,11 @@ input{font:inherit;color:inherit}
 .logo i{width:26px;height:26px;border-radius:7px;background:var(--orange);display:grid;place-items:center}
 .lob{display:grid;gap:10px}.lob .r{display:grid;gap:10px}
 .lc{background:#fff;border:1px solid var(--line2);border-radius:16px;box-shadow:var(--sh1);padding:14px;display:flex;flex-direction:column;gap:4px;text-align:left}
-.lc b{font-size:20px;font-weight:600}.lc.s b{font-size:16px}
+.lc b{font-size:20px;font-weight:600;margin-top:6px}.lc.s b{font-size:16px}.lc{position:relative;overflow:hidden}
+.lobic{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;box-shadow:inset 0 -4px 8px rgba(0,0,0,.18),inset 0 3px 6px rgba(255,255,255,.45),0 4px 10px rgba(26,26,26,.12)}
+.lbadge{position:absolute;top:0;right:12px;background:#FF4F17;color:#fff;font-size:10px;font-weight:600;line-height:12px;padding:4px 6px;border-radius:0 0 4px 4px}
+.lstrip{margin:8px -14px -14px;padding:5px 14px;font-size:10px;font-weight:500;color:#FF4F17;background:linear-gradient(90deg,rgba(255,93,23,.3),rgba(255,148,23,.1))}
+.elite{height:32px;display:inline-flex;align-items:center;padding:0 12px;border-radius:999px;font-size:14px;font-weight:600;color:#D63384;border:1.5px solid #F2A2C8;background:#fff}
 .hero{background:var(--peach);border:1px solid var(--line2);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px}
 .hero h2{font-size:22px;font-weight:700;background:var(--warm);-webkit-background-clip:text;background-clip:text;color:transparent}
 .avs{display:flex;align-items:center}.av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:10px;font-weight:700;border:2px solid #fff;margin-left:-8px}.av:first-child{margin-left:0}
@@ -218,7 +222,9 @@ input{font:inherit;color:inherit}
 .tcard{background:#fff;border:1px solid var(--line2);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
 .cls{border:1px solid var(--ink);border-radius:6px;padding:1px 6px;font-size:12px;font-weight:700}
 .times{display:flex;align-items:center;gap:8px}.times b{font-size:20px;font-weight:600;display:block}.times .mid{flex:1;text-align:center;font-size:12px;color:var(--ink2)}.times .mid i{display:block;height:1px;background:var(--line2);margin-top:4px}
-.hcard{background:#fff;border:1px solid var(--line2);border-radius:16px;box-shadow:var(--sh1);overflow:hidden;text-align:left;width:100%;display:block;transition:border-color .3s}.hcard .img{height:110px}.hcard .bd{padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.hcard{background:#fff;border:1px solid var(--line2);border-radius:16px;box-shadow:var(--sh1);overflow:hidden;text-align:left;width:100%;display:block;transition:border-color .3s}.hcard .img{height:150px}.hcard .dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px}.hcard .dots i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.55)}.hcard .dots i.on{background:#fff}
+.stars{color:#1A1A1A;font-size:12px;letter-spacing:1px;margin-top:-4px}.stars span{color:#CFCFCF}.amen{display:flex;gap:6px;flex-wrap:wrap}.amen span{border:1px solid #E6E6E6;border-radius:6px;padding:3px 7px;font-size:12px;color:#1A1A1A}
+.deal{align-self:flex-start;background:#EAF7EF;color:#0D7A3D;border:1px solid #BFE6CD;font-size:10px;font-weight:600;letter-spacing:.04em;padding:3px 7px;border-radius:4px}.off{background:#11A670;color:#fff;font-size:11px;font-weight:600;padding:1px 5px;border-radius:4px}.hcard .bd{padding:12px 14px;display:flex;flex-direction:column;gap:6px}
 .rate{background:#0F6BFF;color:#fff;font-size:12px;font-weight:700;padding:2px 6px;border-radius:4px}
 .ben{display:flex;gap:6px;align-items:center;font-size:12px;font-weight:600;color:var(--ok2)}
 .sec{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
@@ -297,6 +303,8 @@ const I={
 };
 const ic=(n,s=20,c='currentColor')=>`<svg class="spark" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" style="color:${c}">${I[n]}</svg>`;
 const statusBar=(dark)=>`<div class="status" style="${dark?'color:#fff;background:transparent':''}"><span>9:41</span><svg width="66" height="12" viewBox="0 0 66 12" fill="${dark?'#fff':'#1A1A1A'}"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/><rect x="38" y=".5" width="24" height="11" rx="3" fill="none" stroke="${dark?'#fff':'#1A1A1A'}"/><rect x="40" y="2.5" width="18" height="7" rx="1.5"/><rect x="63" y="4" width="2" height="4" rx="1"/></svg></div>`;
+const LOBC={hotel:['#C4A1FF','#7B3FE4'],plane:['#7CC0FF','#2F6FED'],train:['#FFB27A','#F0602B'],bus:['#7FE0A0','#1E9E57'],beach:['#9EDCFF','#2BA3E6']};
+function lobIc(i,sz){const [a,b]=LOBC[i];return `<span class="lobic" style="width:${sz}px;height:${sz}px;background:radial-gradient(circle at 30% 25%,${a},${b} 70%)">${ic(i,Math.round(sz*.5),'#fff')}</span>`}
 const inr=n=>'₹'+n.toLocaleString('en-IN');
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 
@@ -327,10 +335,10 @@ function render(back){app.innerHTML=VIEWS[S.view]();const vw=app.querySelector('
 // ---------- views ----------
 const VIEWS={
 home:()=>`<div class="view">${statusBar()}
- <div class="hdr" style="justify-content:space-between"><div class="logo"><i>${ic('check',16,'#fff')}</i>cleartrip</div><button class="chip" style="height:30px;font-size:14px;font-weight:600;border-width:1px;border-radius:24px">Login</button></div>
+ <div class="hdr" style="justify-content:space-between"><div class="logo"><i>${ic('check',16,'#fff')}</i>cleartrip</div><div style="display:flex;gap:8px"><button class="chip" style="height:32px;font-size:14px;font-weight:600;border-width:1px;border-radius:24px">Login</button><span class="elite">Elite</span></div></div>
  <div class="scroll"><div class="pad" style="padding-top:6px">
-  <div class="lob"><div class="r" style="grid-template-columns:1fr 1fr">${[['Hotels','30-80% off','hotel'],['Flights','Up to 25% off','plane']].map(([n,s,i])=>`<button class="lc">${ic(i,26,'#FF4F17')}<b>${n}</b><span class="c12">${s}</span></button>`).join('')}</div>
-   <div class="r" style="grid-template-columns:1fr 1fr 1fr">${[['Trains','Flat 10% off','train'],['Buses','Flat 15% off','bus'],['Holidays','Up to 25%','beach']].map(([n,s,i])=>`<button class="lc s">${ic(i,22,'#FF4F17')}<b>${n}</b><span class="c12">${s}</span></button>`).join('')}</div></div>
+  <div class="lob"><div class="r" style="grid-template-columns:1fr 1fr">${[['Hotels','30-80% off','hotel'],['Flights','Up to 25% off','plane']].map(([n,s,i])=>`<button class="lc">${i==='hotel'?'<span class="lbadge">Book at 0</span>':''}${lobIc(i,48)}<b>${n}</b><span class="c12">${s}</span>${i==='hotel'?'<span class="lstrip">1st stay: Flat 25% off</span>':''}</button>`).join('')}</div>
+   <div class="r" style="grid-template-columns:1fr 1fr 1fr">${[['Trains','Flat 10% off','train'],['Buses','Flat 15% off','bus'],['Holidays','Up to 25% off','beach']].map(([n,s,i])=>`<button class="lc s">${i==='beach'?'<span class="lbadge">NEW</span>':''}${lobIc(i,40)}<b>${n}</b><span class="c12">${s}</span></button>`).join('')}</div></div>
   <div class="aisec"><div class="aih"><span class="h16" style="display:flex;gap:6px;align-items:center">${ic('spark',16,'#FF4F17')}<span class="aigt">Plan a group trip with AI</span></span><span class="new">NEW</span></div>
    <div class="c12" style="margin-top:2px">Finds one trip that fits everyone's budget · prices live from Cleartrip</div>
    <div class="aicards"><button class="aic" data-go="chat" data-p="6 of us, ~₹15K each, Christmas long weekend, somewhere beachy" onpointerdown="S.prefill=this.dataset.p"><span class="aie">${ic('beach',18,'#FF4F17')}</span><b>Christmas long weekend</b><span>Goa under ₹15K each</span><span class="aig">Ask AI ›</span></button><button class="aic" data-go="chat" data-p="6 of us, budgets from ₹12K to ₹18K, Christmas long weekend, beach" onpointerdown="S.prefill=this.dataset.p"><span class="aie">${ic('users',18,'#FF4F17')}</span><b>6 friends, different budgets?</b><span>I'll find one trip that fits all</span><span class="aig">Ask AI ›</span></button><button class="aic" data-go="chat" data-p="4 of us, ₹10K each, a weekend trip from Mumbai by train" onpointerdown="S.prefill=this.dataset.p"><span class="aie">${ic('train',18,'#FF4F17')}</span><b>Weekend from Mumbai</b><span>By train, back by Monday</span><span class="aig">Ask AI ›</span></button></div></div>
@@ -385,11 +393,14 @@ plan:()=>{const c=costNow(),f=fits(c),st=STAYS[S.stay],fun=funPP-(S.skip.chapora
   ${tcard('21:10','CSMT · Fri 25','07:40','MAO · Sat 26','10h 30m','Available','ok')}
   ${tcard('18:15','MAO · Sun 27','05:50','CSMT · Mon 28','11h 35m','RAC 4 · likely to confirm','warn')}
   <div class="sec"><span class="h16">Stay</span></div>
-  <button class="hcard" id="stayCard"><div class="img ph-${S.stay}"></div><div class="bd">
-   <div style="display:flex;gap:6px;align-items:center"><span class="rate">${st.rating.split(' ')[0]}</span><span class="m12" style="color:#0F6BFF;font-weight:600">Very Good · ${st.rating.split('· ')[1]} ratings</span></div>
-   <div class="h16">${st.name}</div><div class="c12">${S.roomFix==='dorm'?'2 private + 1 dorm room · 2 nights':st.meta}</div>
-   <div class="ben">${ic('check',13,'#0D7A3D')}Free cancellation till Mon 21 Dec</div><div class="ben">${ic('check',13,'#0D7A3D')}Book with ₹0 payment</div>
-   <div style="display:flex;align-items:center;gap:6px"><span class="h16">${inr(1450+st.d/2)}</span><span class="c12" style="flex:1">/person/night</span><span class="wlink">${ic('spark',12,'#A06800')}Why this stay</span></div></div></button>
+  <button class="hcard" id="stayCard"><div class="img ph-${S.stay}" style="position:relative"><span class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></span></div><div class="bd">
+   <div style="display:flex;gap:6px;align-items:center"><span class="rate">${st.rating.split(' ')[0]}</span><span class="m12" style="color:#0F6BFF;font-weight:600">Very Good</span><span class="c12">(${st.rating.split('· ')[1]} ratings)</span></div>
+   <div class="h16" style="font-size:18px">${st.name}</div><div class="stars">★★★<span>★★</span></div><div class="c12">${S.roomFix==='dorm'?'2 private + 1 dorm room · 2 nights':st.meta}</div>
+   <div class="amen"><span>Wi-Fi</span><span>Breakfast</span><span>Beach 400 m</span></div>
+   <div class="ben">${ic('check',13,'#0D7A3D')}Free cancellation till Mon 21 Dec</div><div class="ben" style="color:#0D7A3D">${ic('check',13,'#0D7A3D')}Book with ₹0 payment</div>
+   <span class="deal">GROUP DEAL · 3 ROOMS</span>
+   <div style="display:flex;align-items:baseline;gap:6px"><span class="h20" style="font-size:22px;font-weight:700">${inr(1450+st.d/2)}</span><s class="c12">${inr(1650+st.d/2)}</s><span class="off">12% off</span><span style="flex:1"></span><span class="wlink">${ic('spark',12,'#A06800')}Why this stay</span></div>
+   <div class="c12" style="margin-top:-4px">per person/night · taxes included</div></div></button>
   <div class="sec"><span class="h16">Things to do · optional</span></div>
   <div class="days">${dayRow('flea','Sat','Anjuna beach + flea market','~3 hrs · 5 min walk')}${dayRow('chapora','Sat','Sunset at Chapora Fort','1.5 hrs · ~₹150 scooter')}${dayRow('sun','Sun',S.day2chill?'Slow brunch + hammock at the hostel':'Brunch + check-out by 11 AM',S.day2chill?'Late check-out till 1 PM (free) · train 18:15':'Train at 18:15 · bags at the hostel')}</div>
   <div class="sec"><span class="h16">Fare summary</span></div>
