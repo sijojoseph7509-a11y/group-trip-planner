@@ -141,7 +141,7 @@ input{font:inherit;color:inherit}
 .aigt{background:linear-gradient(90deg,#FF4F17,#EE1C85);-webkit-background-clip:text;background-clip:text;color:transparent}
 .aicards{display:flex;gap:10px;overflow-x:auto;margin-top:12px;padding-right:14px;scrollbar-width:none}.aicards::-webkit-scrollbar{display:none}
 .aic{flex:0 0 150px;display:flex;flex-direction:column;gap:4px;text-align:left;background:#fff;border:1px solid #EDEDED;border-radius:12px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.aic b{font-size:14px;line-height:18px;font-weight:600;color:var(--ink)}.aic span{font-size:12px;color:var(--ink2);line-height:16px}.aie{font-size:20px!important}.aic .aig{margin-top:auto;padding-top:6px;color:#E8461A;font-weight:600}
+.aic b{font-size:14px;line-height:18px;font-weight:600;color:var(--ink)}.aic span{font-size:12px;color:var(--ink2);line-height:16px}.aie{width:32px;height:32px;border-radius:8px;background:#FFF1ED;display:flex;align-items:center;justify-content:center;margin-bottom:2px}.aic .aig{margin-top:auto;padding-top:6px;color:#E8461A;font-weight:600}
 .priv{background:var(--peach);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
 .money{display:flex;align-items:center;border:1.5px solid var(--ink);border-radius:8px;background:#fff;padding:0 14px;height:48px;font-size:20px;font-weight:600}
 .money input{border:0;outline:0;font-size:20px;font-weight:600;width:100%;background:none}
@@ -250,16 +250,16 @@ input{font:inherit;color:inherit}
     <div class="panel">
       <h3>Demo controls</h3>
       <button class="dc" data-demo="restart">↺ Start over <small>Home</small></button>
-      <button class="dc" data-demo="error">⚡ Next AI reply fails <small>Error state</small></button>
-      <button class="dc" data-demo="drop">👋 Meera drops out <small>Edge case</small></button>
-      <button class="dc" data-demo="friend">👀 Open the friend's link <small>Guest view</small></button>
-      <button class="dc" data-demo="trainfail">🚫 Train sells out at payment <small>Mid-booking</small></button>
+      <button class="dc" data-demo="error">Next AI reply fails <small>Error state</small></button>
+      <button class="dc" data-demo="drop">Meera drops out <small>Edge case</small></button>
+      <button class="dc" data-demo="friend">Open the friend's link <small>Guest view</small></button>
+      <button class="dc" data-demo="trainfail">Train sells out at payment <small>Mid-booking</small></button>
       <button class="dc" data-demo="jump-plan">→ Jump to the plan</button>
     </div>
     <p class="legal">Concept prototype for a design exercise. All prices, trains, stays and AI replies are simulated. Not affiliated with or endorsed by Cleartrip. Photos: Wikimedia Commons contributors (CC BY / CC BY-SA / public domain); see <a href="img/CREDITS.md" style="color:inherit">credits</a>.</p>
   </aside>
   <div class="device"><div class="screen" id="app"></div></div>
-  <button id="mobileDemo" aria-label="Demo controls">⚙︎</button>
+  <button id="mobileDemo" aria-label="Demo controls">Demo</button>
   <div id="mPanel" class="panel" style="display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:60"></div>
 </div>
 <script>
@@ -333,7 +333,7 @@ home:()=>`<div class="view">${statusBar()}
    <div class="r" style="grid-template-columns:1fr 1fr 1fr">${[['Trains','Flat 10% off','train'],['Buses','Flat 15% off','bus'],['Holidays','Up to 25%','beach']].map(([n,s,i])=>`<button class="lc s">${ic(i,22,'#FF4F17')}<b>${n}</b><span class="c12">${s}</span></button>`).join('')}</div></div>
   <div class="aisec"><div class="aih"><span class="h16" style="display:flex;gap:6px;align-items:center">${ic('spark',16,'#FF4F17')}<span class="aigt">Plan a group trip with AI</span></span><span class="new">NEW</span></div>
    <div class="c12" style="margin-top:2px">Finds one trip that fits everyone's budget · prices live from Cleartrip</div>
-   <div class="aicards"><button class="aic" data-go="chat" data-p="6 of us, ~₹15K each, Christmas long weekend, somewhere beachy 🏖️" onpointerdown="S.prefill=this.dataset.p"><span class="aie">🎄</span><b>Christmas long weekend</b><span>Goa under ₹15K each</span><span class="aig">Ask AI ›</span></button><button class="aic" data-go="chat" data-p="6 of us, budgets from ₹12K to ₹18K, Christmas long weekend, beach" onpointerdown="S.prefill=this.dataset.p"><span class="aie">👥</span><b>6 friends, different budgets?</b><span>I'll find one trip that fits all</span><span class="aig">Ask AI ›</span></button><button class="aic" data-go="chat" data-p="4 of us, ₹10K each, a weekend trip from Mumbai by train" onpointerdown="S.prefill=this.dataset.p"><span class="aie">🚆</span><b>Weekend from Mumbai</b><span>By train, back by Monday</span><span class="aig">Ask AI ›</span></button></div></div>
+   <div class="aicards"><button class="aic" data-go="chat" data-p="6 of us, ~₹15K each, Christmas long weekend, somewhere beachy" onpointerdown="S.prefill=this.dataset.p"><span class="aie">${ic('beach',18,'#FF4F17')}</span><b>Christmas long weekend</b><span>Goa under ₹15K each</span><span class="aig">Ask AI ›</span></button><button class="aic" data-go="chat" data-p="6 of us, budgets from ₹12K to ₹18K, Christmas long weekend, beach" onpointerdown="S.prefill=this.dataset.p"><span class="aie">${ic('users',18,'#FF4F17')}</span><b>6 friends, different budgets?</b><span>I'll find one trip that fits all</span><span class="aig">Ask AI ›</span></button><button class="aic" data-go="chat" data-p="4 of us, ₹10K each, a weekend trip from Mumbai by train" onpointerdown="S.prefill=this.dataset.p"><span class="aie">${ic('train',18,'#FF4F17')}</span><b>Weekend from Mumbai</b><span>By train, back by Monday</span><span class="aig">Ask AI ›</span></button></div></div>
   <div class="sec"><span class="h16">Top offers</span><span class="m12" style="color:var(--link);font-weight:600">View all</span></div>
   <div class="offers"><button class="offer"><span class="ph ph-plane" style="display:block"></span><div><b class="m14" style="font-weight:600">Up to 25% off</b><div class="c12" style="padding:0">on domestic flights</div></div></button><button class="offer"><span class="ph ph-anjuna" style="display:block"></span><div><b class="m14" style="font-weight:600">Book hotels at ₹0</b><div class="c12" style="padding:0">Pay at check-in</div></div></button></div>
  </div></div>
@@ -363,10 +363,10 @@ options:()=>{const f1=fits(11900),f2=fits(10400),f3=fits(17200);return `<div cla
 
 friend:()=>`<div class="view">${statusBar()}<div class="url">${ic('lock',12,'#757575')} cleartrip.com/t/xmas-goa</div>
  <div class="scroll"><div class="pad">
-  <div class="row"><div class="mem"><div class="a" style="width:44px;height:44px;background:#3366CC;font-size:16px">A</div></div><div style="flex:1"><div class="h16">Arjun is planning Christmas 🎄</div><div class="c12">25–27 Dec · 6 friends · from Mumbai</div></div></div>
+  <div class="row"><div class="mem"><div class="a" style="width:44px;height:44px;background:#3366CC;font-size:16px">A</div></div><div style="flex:1"><div class="h16">Arjun is planning Christmas</div><div class="c12">25–27 Dec · 6 friends · from Mumbai</div></div></div>
   <span class="pill ok" style="align-self:flex-start">${ic('check',12,'#0D7A3D')} No login needed to vote</span>
   <div style="display:flex;flex-direction:column;gap:6px"><label class="m12" style="color:var(--ink2)" for="fn">Your name</label><input id="fn" class="fname" value="${S.fName}" autocomplete="given-name"><div class="c12">So the group knows who joined. Signed in to Cleartrip? We fill this in.</div></div>
-  <div class="priv">${S.budgetMode==='private'||S.fKeepPrivate?`<div style="display:flex;gap:6px;align-items:center;font-size:12px;font-weight:600;color:var(--orange-text)">${ic('lock',14,'#FF4F17')}Only you see this</div>`:`<div style="display:flex;gap:6px;align-items:center;font-size:12px;font-weight:600;color:var(--orange-text)">👥 Arjun made budgets open · the group sees this</div>`}
+  <div class="priv">${S.budgetMode==='private'||S.fKeepPrivate?`<div style="display:flex;gap:6px;align-items:center;font-size:12px;font-weight:600;color:var(--orange-text)">${ic('lock',14,'#FF4F17')}Only you see this</div>`:`<div style="display:flex;gap:6px;align-items:center;font-size:12px;font-weight:600;color:var(--orange-text)">${ic('users',14,'#FF4F17')}Arjun made budgets open · the group sees this</div>`}
    ${S.budgetMode==='open'?`<label class="c12" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="kp" ${S.fKeepPrivate?'checked':''}> Keep my budget private</label>`:''}
    <label class="m12" style="color:var(--ink2)" for="fb">Your max budget, all-in</label>
    <div class="money">₹<input id="fb" inputmode="numeric" value="${S.fBudget.toLocaleString('en-IN')}"></div>
@@ -418,7 +418,7 @@ whosin:()=>{const inN=S.status.filter((s,i)=>s==='in'&&!(S.dropped&&i===5)).leng
   <div class="card" style="display:flex;flex-direction:column;gap:10px;box-shadow:none"><div class="row" style="justify-content:space-between"><span class="h20">${inN} of ${tot} are in</span><div class="avs">${FRIENDS.filter((f,i)=>S.status[i]==='in'&&!(S.dropped&&i===5)).map(f=>`<div class="av" style="background:${f.c}">${f.i[0]}</div>`).join('')}</div></div>
    <div class="prog">${people().map(f=>{const i=FRIENDS.indexOf(f);return `<i style="background:${S.status[i]==='in'?'var(--ok)':'var(--line2)'}"></i>`}).join('')}</div>
    <div class="c12" style="display:flex;gap:4px;align-items:center">${ic('clock',13,'#757575')}Rooms held · hold ends in 2d 14h</div></div>
-  <div class="card" style="display:flex;flex-direction:column;gap:6px;box-shadow:none">${FRIENDS.map((f,i)=>{const s=S.dropped&&i===5?'drop':S.status[i];return `<div class="mem"><div class="a" style="background:${f.c}">${f.i}</div><span class="n">${f.n}${S.budgetMode==='open'?`<span class="c12" style="display:block">${i===2&&S.fKeepPrivate?'🔒 budget private':'up to '+inr(f.b)}</span>`:''}</span><span class="st ${s}">${{in:'In ✓',rev:'Reviewing',drop:'Dropped out',re:'Re-confirm'}[s]}</span></div>`}).join('')}</div>
+  <div class="card" style="display:flex;flex-direction:column;gap:6px;box-shadow:none">${FRIENDS.map((f,i)=>{const s=S.dropped&&i===5?'drop':S.status[i];return `<div class="mem"><div class="a" style="background:${f.c}">${f.i}</div><span class="n">${f.n}${S.budgetMode==='open'?`<span class="c12" style="display:block">${i===2&&S.fKeepPrivate?'Budget private':'up to '+inr(f.b)}</span>`:''}</span><span class="st ${s}">${{in:'In ✓',rev:'Reviewing',drop:'Dropped out',re:'Re-confirm'}[s]}</span></div>`}).join('')}</div>
  </div></div>
  <div class="bar"><div style="display:flex;gap:10px">${ready?'':`<button class="btn o" id="nudge" ${S.nudged?'disabled':''}>${S.nudged?'Nudged':'Nudge '+rev}</button>`}<button class="btn p" data-go="review">Review & book</button></div></div>
 </div>`},
@@ -454,7 +454,7 @@ partial:()=>{const n=people().length;return `<div class="view cool">${statusBar(
 </div>`},
 
 booked:()=>`<div class="view">${statusBar()}<div class="scroll"><div class="pad" style="align-items:center;text-align:center;padding:28px 20px;gap:16px">
- <div class="okc">${ic('check',36,'#fff')}</div><div class="h24">Christmas in Goa is booked 🎉</div><div class="b14" style="color:var(--ink2)">All ${people().length} of you now have the itinerary and your tickets.</div>
+ <div class="okc">${ic('check',36,'#fff')}</div><div class="h24">Christmas in Goa is booked</div><div class="b14" style="color:var(--ink2)">All ${people().length} of you now have the itinerary and your tickets.</div>
  <div class="avs">${people().map(f=>`<div class="av" style="background:${f.c};width:32px;height:32px;font-size:12px">${f.i[0]}</div>`).join('')}</div>
  <div class="days" style="width:100%;text-align:left">${[['train',S.outLabel||'Train out · Fri 25 Dec, 21:10',S.outSub||'PNR 4125 530 981 · Confirmed'],['bed',STAYS[S.stay].name+' · 2 nights','Booking ID CT-GOA-88213 · Confirmed'],['train','Train back · Sun 27 Dec, 18:15','PNR 4125 531 207 · RAC 4']].map(([i,t,s])=>`<div class="day">${ic(i,18,'#757575')}<div style="flex:1"><div class="m14">${t}</div><div class="c12">${s}</div></div></div>`).join('')}</div>
  <div class="ripple" style="width:100%;flex-direction:row;text-align:left;color:var(--violet)">${ic('spark',16,'#5E1EB8')}<span>I'll watch your RAC ticket and tell the group the moment it confirms.</span></div>
@@ -471,7 +471,7 @@ function closeSheet(){app.querySelectorAll('.dim,.sheet').forEach(n=>n.remove())
 function whySheet(){const st=STAYS[S.stay];const s=sheet(`<div class="sh-t"><span class="h20">Why this stay</span><button class="ib" data-close>${ic('x',20)}</button></div>
  <div class="c12">${st.name} · <span class="live">● Live ${inr(1450+st.d/2)}</span>/person/night · checked just now</div>
  <div style="display:flex;flex-direction:column;gap:8px">${['Fits all budgets with room to spare','Private rooms, not dorms: the group asked for a good stay','400 m from the beach, so Day 1 needs no cab'].map(r=>`<div class="why">${ic('spark',13,'#A06800')}<span>${r}</span></div>`).join('')}</div>
- <div style="background:var(--tealbg);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px"><div class="cap" style="color:var(--teal)">What guests say</div><div class="m12">👍 Friendly staff, spotless rooms &nbsp; 👎 Patchy hot water after 9 pm</div></div>
+ <div style="background:var(--tealbg);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px"><div class="cap" style="color:var(--teal)">What guests say</div><div class="m12">+ Friendly staff, spotless rooms &nbsp; − Patchy hot water after 9 pm</div></div>
  <div class="sec"><span class="m14" style="font-weight:600">Also considered</span><span class="m12" style="color:var(--link);font-weight:600">See all 14 ›</span></div>
  ${[['Calangute Beach Resort · ₹2,350','Over budget for 3 of you'],['Baga Inn · ₹1,500','Rated 3.6, with noise complaints']].map(([n,w])=>`<div style="display:flex;gap:8px;align-items:flex-start">${ic('x',12,'#D32F2F')}<div><div class="m12">${n}</div><div class="c12">${w}</div></div></div>`).join('')}
  <div style="display:flex;gap:10px"><button class="btn o" id="toSwap">Change stay</button><button class="btn d" data-close>Keep it</button></div>`);
@@ -499,12 +499,12 @@ function applySwap(k){const from=costNow();S.prevStay=S.stay;S.stay=k;if(S.sentT
 async function aiSay(html,delay=900){const m=app.querySelector('#msgs');if(!m)return;const t=document.createElement('div');t.className='ma';t.innerHTML='<span class="dot"></span><div class="typing"><i></i><i></i><i></i></div>';m.appendChild(t);m.scrollTop=m.scrollHeight;await wait(delay);if(!app.querySelector('#msgs'))return;t.innerHTML=`<span class="dot"></span><div style="flex:1">${html}</div>`;m.scrollTop=m.scrollHeight;S.msgs.push({a:html});return t}
 function userSay(text){const m=app.querySelector('#msgs');const u=document.createElement('div');u.className='mu';u.textContent=text;m.appendChild(u);m.scrollTop=m.scrollHeight;S.msgs.push({u:text})}
 function addNode(html){const m=app.querySelector('#msgs');const d=document.createElement('div');d.innerHTML=html;const n=d.firstElementChild;m.appendChild(n);m.scrollTop=m.scrollHeight;return n}
-async function startChat(){S.chatStep=0;S.msgs=[];const n=await aiSay(`Hi Arjun 👋 Tell me who's going, roughly when, and your budget. I'll find a trip that works for everyone, and keep each person's budget private.`,500);
- const ex=addNode(`<div class="indent" style="display:flex;flex-direction:column;gap:8px"><div class="cap">Try one of these</div><div class="chips">${['6 of us, ~₹15K each, Christmas long weekend, somewhere beachy 🏖️','Surprise us 🎲'].map(s=>`<button class="chip soft" style="height:auto;min-height:32px;white-space:normal;text-align:left;padding:6px 12px">${s}</button>`).join('')}</div></div>`);
+async function startChat(){S.chatStep=0;S.msgs=[];const n=await aiSay(`Hi Arjun. Tell me who's going, roughly when, and your budget. I'll find a trip that works for everyone, and keep each person's budget private.`,500);
+ const ex=addNode(`<div class="indent" style="display:flex;flex-direction:column;gap:8px"><div class="cap">Try one of these</div><div class="chips">${['6 of us, ~₹15K each, Christmas long weekend, somewhere beachy','Surprise us'].map(s=>`<button class="chip soft" style="height:auto;min-height:32px;white-space:normal;text-align:left;padding:6px 12px">${s}</button>`).join('')}</div></div>`);
  if(S.prefill){const t=S.prefill;S.prefill=null;ex.remove();await wait(500);handleUser(t);return}
- ex.querySelectorAll('button').forEach(b=>b.onclick=()=>{ex.remove();handleUser(b.textContent.includes('Surprise')?'6 of us, ~₹15K each, Christmas long weekend, somewhere beachy 🏖️':b.textContent)})}
+ ex.querySelectorAll('button').forEach(b=>b.onclick=()=>{ex.remove();handleUser(b.textContent.includes('Surprise')?'6 of us, ~₹15K each, Christmas long weekend, somewhere beachy':b.textContent)})}
 async function handleUser(text){if(S.chatStep===0){userSay(text);S.chatStep=1;
-  await aiSay(`Love it. Christmas falls on a long weekend: <b>Fri 25 – Sun 27 Dec</b> 🎄 One quick thing: what matters most to the group?`);
+  await aiSay(`Love it. Christmas falls on a long weekend: <b>Fri 25 – Sun 27 Dec</b>. One quick thing: what matters most to the group?`);
   const c=addNode(`<div class="chips indent">${['Keep it cheap','Comfort','Less travel'].map(s=>`<button class="chip">${s}</button>`).join('')}</div>`);
   c.querySelectorAll('button').forEach(b=>b.onclick=()=>{b.classList.add('sel');c.querySelectorAll('button').forEach(x=>x.disabled=true);setTimeout(()=>handleUser(b.textContent),200)});return}
  if(S.chatStep===1){userSay(text);S.chatStep=2;await aiSay(`Got it. I'll plan around <b>${text.toLowerCase()}</b>, and later each friend can add their own budget privately.`,700);await think();return}
@@ -548,18 +548,18 @@ function whyOption(k){const W={train:["Overnight train saves a night's stay; you
 function sharePreview(){const s=sheet(`<div class="sh-t"><span class="h20">Share with the group</span><button class="ib" data-close>${ic('x',20)}</button></div>
  <div class="c12">Friends get one message. They add their name, budget and vote. No login needed.</div>
  <div class="m12" style="color:var(--ink2);margin-top:4px">Budgets in this group</div>
- <div class="chips" id="bmode">${[['private','🔒 Private'],['open','👥 Open to group']].map(([k,l])=>`<button class="chip ${S.budgetMode===k?'sel':''}" data-m="${k}">${l}</button>`).join('')}</div>
+ <div class="chips" id="bmode">${[['private','Private'],['open','Open to group']].map(([k,l])=>`<button class="chip ${S.budgetMode===k?'sel':''}" data-m="${k}">${l}</button>`).join('')}</div>
  <div class="c12" id="bmodeNote">${S.budgetMode==='private'?'Recommended. You see totals like “fits 5 of 6”, never who is short.':'Everyone sees each other\'s budget, so you can talk it through openly. Anyone can still keep theirs private.'}</div>
- <div style="background:#E7FFDB;border-radius:12px 12px 12px 4px;padding:12px;font-size:13px;line-height:1.5">🎄 <b>Christmas trip vote!</b><br>3 options, all under ₹17.2K. Pick one + add your max budget (${S.budgetMode==='private'?'only you see it':'shared with the group'}): <span style="color:var(--link)">cleartrip.com/t/xmas-goa</span></div>
+ <div style="background:#E7FFDB;border-radius:12px 12px 12px 4px;padding:12px;font-size:13px;line-height:1.5"><b>Christmas trip vote</b><br>3 options, all under ₹17.2K. Pick one + add your max budget (${S.budgetMode==='private'?'only you see it':'shared with the group'}): <span style="color:var(--link)">cleartrip.com/t/xmas-goa</span></div>
  <button class="btn p" id="doShare">Send on WhatsApp</button><button class="btn g" id="seeFriend">See what Rahul sees</button>`);
  s.querySelectorAll('#bmode button').forEach(b=>b.onclick=()=>{S.budgetMode=b.dataset.m;closeSheet();sharePreview()});s.querySelector('[data-close]').onclick=closeSheet;s.querySelector('#seeFriend').onclick=()=>{closeSheet();go('friend')};
  s.querySelector('#doShare').onclick=async()=>{closeSheet();toast('Sent. Votes will appear as friends reply.');S.sentToGroup=true;for(const [i,n] of [[1,'Sarika'],[3,'Neha']]){await wait(1300);toast(`${n} joined the trip · ${i===1?2:3} of 6 replied`)}await wait(1600);push('3 of 6 voted · Goa by train leads','Fits 6 of 6 · tap to open the plan',()=>go('plan'))}}
 function allIn(){return S.status.every((s,i)=>s==='in'||(S.dropped&&i===5))}
-async function maybeAutobook(){if(!allIn())return false;if(S.autobook){if(costNow()<=12000){push('Auto-booked ✓','Everyone\'s in and it stayed under ₹12,000/person (your rule)',()=>{});await wait(1400);S.booked=true;go('booked');return true}push('Everyone\'s in','Cost is above your ₹12,000 auto-book rule, so please review before booking',()=>go('review'));return true}push('Everyone\'s in 🎉','Ready to book Christmas in Goa',()=>go('review'));return true}
+async function maybeAutobook(){if(!allIn())return false;if(S.autobook){if(costNow()<=12000){push('Auto-booked ✓','Everyone\'s in and it stayed under ₹12,000/person (your rule)',()=>{});await wait(1400);S.booked=true;go('booked');return true}push('Everyone\'s in','Cost is above your ₹12,000 auto-book rule, so please review before booking',()=>go('review'));return true}push('Everyone\'s in','Ready to book Christmas in Goa',()=>go('review'));return true}
 async function simulateReplies(){for(const i of [1,3,4]){await wait(1100);if(S.view!=='whosin')return;if(S.status[i]==='rev'){S.status[i]='in';render();toast(`${FRIENDS[i].n} is in ✓`)}}maybeAutobook()}
 
 // ---------- demo controls ----------
-function syncDemo(){document.querySelectorAll('[data-demo="error"]').forEach(b=>b.innerHTML=S.failNext?'⚡ Next AI reply will fail ✓ <small>armed</small>':'⚡ Next AI reply fails <small>Error state</small>')}
+function syncDemo(){document.querySelectorAll('[data-demo="error"]').forEach(b=>b.innerHTML=S.failNext?'Next AI reply will fail ✓ <small>armed</small>':'Next AI reply fails <small>Error state</small>')}
 function demo(k){if(k==='restart'){S=fresh();render();syncDemo();return}
  if(k==='error'){S.failNext=!S.failNext;syncDemo();if(S.failNext){S=Object.assign(fresh(),{failNext:true});S.view='chat';render();startChat()}return}
  if(k==='drop'){S.dropped=true;S.roomFix=null;if(S.view!=='whosin'){S.sentToGroup=true;if(S.status.filter(s=>s==='in').length<3)S.status=['in','in','rev','in','in','rev']}go('whosin');return}
